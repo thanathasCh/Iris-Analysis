@@ -1,0 +1,22 @@
+{% extends 'shared/_layout.html' %}
+{% block content %}
+
+<section>
+    <div class="panel-group">
+        <div class="block block--underline">
+            <h1>Choose your image</h1>
+        </div>
+    </div>
+
+    <form action="{{ url_for('processImage') }}" method="post">
+        <div class="row">
+            <div class="col form-group">
+                <input id="input-image" name="input-image" type="file" accept="image/*">
+            </div>
+        </div>
+        <div id="image-frame"></div>
+    </form>
+</section>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/image_overlay.js') }}"></script>
+{% endblock %}
