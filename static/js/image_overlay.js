@@ -147,6 +147,7 @@ function drawCanvas() {
         darthVaderImg.image(imageObj1);
         layer.draw();
     };
+    // static/images/...
     imageObj1.src = 'https://target.scene7.com/is/image/Target/GUEST_bd945555-f106-40e9-80ad-4c6668b4e534?wid=488&hei=488&fmt=pjpeg';
 
     var imageObj2 = new Image();
@@ -154,6 +155,8 @@ function drawCanvas() {
         yodaImg.image(imageObj2);
         layer.draw();
     };
+
+    // static/images/...
     imageObj2.src = 'https://upload.wikimedia.org/wikipedia/en/9/9b/Yoda_Empire_Strikes_Back.png';
 }
 

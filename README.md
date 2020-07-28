@@ -13,3 +13,15 @@ This project used Web Application to display UI, since it is easier for user int
 ```
 python app.py
 ```
+
+TODO
+---
+Web 
+- [x] choose file
+- [ ] place image overlay 
+- [x] drag, drop, resize with mouse DONE
+- [ ] click done
+
+Flask
+- [ ] upper left point and lower right point of image will be sent to Flask
+- [ ] backend python do operation behind to segment parts of eyes
