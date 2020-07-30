@@ -1,7 +1,14 @@
 let inputImage = '#input-image';
 let imageFrame = '#image-frame';
 let processBtn = '#process_btn';
-let patternPath = '/static/images/eye-pattern.png';
+let patternPath = '/static/images/eye-pattern.jpg';
+const limitedWidth = 500;
+
+let userImagePath;
+let currentX;
+let currentY;
+let currentWidth = 200;
+let currentHeight = 200;
 
 
 function update(activeAnchor) {
@@ -43,6 +50,9 @@ function update(activeAnchor) {
     if (width && height) {
         image.width(width);
         image.height(height);
+
+        currentWidth = width;
+        currentHeight = height;
     }
 }
 
@@ -94,8 +104,8 @@ function addAnchor(group, x, y, name) {
 
 
 function drawCanvas(imageSrc, size) {
-    var width = size.width;
-    var height = size.height;
+    var width = size.w;
+    var height = size.h;
 
 
     var stage = new Konva.Stage({
@@ -120,21 +130,26 @@ function drawCanvas(imageSrc, size) {
 
         var patternImage = new Konva.Image({
             width: 200,
+            height: 200,
             opacity: 0.5
         });
 
-        var darthVaderGroup = new Konva.Group({
-            x: 180,
-            y: 50,
+        var imageGroup = new Konva.Group({
             draggable: true,
         });
 
-        layer.add(darthVaderGroup);
-        darthVaderGroup.add(patternImage);
-        addAnchor(darthVaderGroup, 0, 0, 'topLeft');
-        addAnchor(darthVaderGroup, 200, 0, 'topRight');
-        addAnchor(darthVaderGroup, 200, 200, 'bottomRight');
-        addAnchor(darthVaderGroup, 0, 200, 'bottomLeft');
+        imageGroup.on('dragmove', function () {
+            const abPosition = this.absolutePosition();
+            currentX = abPosition.x;
+            currentY = abPosition.y;
+        });
+
+        layer.add(imageGroup);
+        imageGroup.add(patternImage);
+        addAnchor(imageGroup, 0, 0, 'topLeft');
+        addAnchor(imageGroup, 200, 0, 'topRight');
+        addAnchor(imageGroup, 200, 200, 'bottomRight');
+        addAnchor(imageGroup, 0, 200, 'bottomLeft');
 
         var imageObj_pattern = new Image();
         imageObj_pattern.onload = function () {
@@ -143,7 +158,7 @@ function drawCanvas(imageSrc, size) {
         };
 
         // change source
-        imageObj_pattern.src = 'https://target.scene7.com/is/image/Target/GUEST_bd945555-f106-40e9-80ad-4c6668b4e534?wid=488&hei=488&fmt=pjpeg';
+        imageObj_pattern.src = patternPath;
     };
 
     imageObj.src = imageSrc;
@@ -159,10 +174,14 @@ $(document).ready(function () {
 
             reader.onload = function (e) {
                 var image = new Image();
-                image.src = e.target.result;
+                userImagePath = e.target.result;
+                image.src = userImagePath;
+
 
                 image.onload = function () {
-                    drawCanvas(e.target.result, { width: this.width * 2, height: this.height * 2 }); // Fix Ratio
+                    const newHeight = (limitedWidth / this.width) * this.height;
+
+                    drawCanvas(e.target.result, { w: limitedWidth, h: newHeight });
                 }
             }
 
@@ -170,5 +189,23 @@ $(document).ready(function () {
 
             $(processBtn).removeClass('d-none');
         }
-    })
+    });
+
+
+    $(processBtn).on('click', function () {
+        $.post('/processImage', {
+            'userImagePath': userImagePath,
+            'limitedWidth': limitedWidth,
+            'currentX': currentX,
+            'currentY': currentY,
+            'currentWidth': currentWidth,
+            'currentHeight': currentHeight
+        })
+            .done(function (data) {
+                console.log('done');
+            })
+            .fail(function () {
+                console.log('fail');
+            });
+    });
 })

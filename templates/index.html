@@ -8,19 +8,15 @@
         </div>
     </div>
 
-    <form action="{{ url_for('processImage') }}" method="post">
-        <div class="row">
-            <div class="col form-group">
-                <input id="input-image" name="input-image" type="file" accept="image/*">
-            </div>
+    <div class="row">
+        <div class="col form-group">
+            <input id="input-image" name="input-image" type="file" accept="image/*">
         </div>
-        <div id="image-frame"></div>
+    </div>
+    <div id="image-frame"></div>
 
-        <br>
-
-        <button id="process_btn" class="btn btn-primary btn-block d-none" type="submit">Continue</button>
-
-    </form>
+    <br>
+    <button id="process_btn" class="btn btn-primary btn-block d-none" type="button">Continue</button>
 </section>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/image_overlay.js') }}"></script>
