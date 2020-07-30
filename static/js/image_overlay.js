@@ -1,5 +1,7 @@
 let inputImage = '#input-image';
 let imageFrame = '#image-frame';
+let processBtn = '#process_btn';
+let patternPath = '/static/images/eye-pattern.png';
 
 
 function update(activeAnchor) {
@@ -91,9 +93,10 @@ function addAnchor(group, x, y, name) {
 }
 
 
-function drawCanvas() {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+function drawCanvas(imageSrc, size) {
+    var width = size.width;
+    var height = size.height;
+
 
     var stage = new Konva.Stage({
         container: 'image-frame',
@@ -104,80 +107,68 @@ function drawCanvas() {
     var layer = new Konva.Layer();
     stage.add(layer);
 
-    // darth vader
-    var darthVaderImg = new Konva.Image({
-        width: 200,
-        height: 137,
-        opacity: 0.5
-    });
+    var imageObj = new Image();
+    imageObj.onload = function () {
+        var userImage = new Konva.Image({
+            image: imageObj,
+            height: height,
+            width: width
+        });
 
-    // yoda
-    var yodaImg = new Konva.Image({
-        width: 93,
-        height: 104,
-        opacity: 0.5
-    });
+        layer.add(userImage);
+        layer.batchDraw();
 
-    var darthVaderGroup = new Konva.Group({
-        x: 180,
-        y: 50,
-        draggable: true,
-    });
-    layer.add(darthVaderGroup);
-    darthVaderGroup.add(darthVaderImg);
-    addAnchor(darthVaderGroup, 0, 0, 'topLeft');
-    addAnchor(darthVaderGroup, 200, 0, 'topRight');
-    addAnchor(darthVaderGroup, 200, 138, 'bottomRight');
-    addAnchor(darthVaderGroup, 0, 138, 'bottomLeft');
+        var patternImage = new Konva.Image({
+            width: 200,
+            opacity: 0.5
+        });
 
-    var yodaGroup = new Konva.Group({
-        x: 20,
-        y: 110,
-        draggable: true,
-    });
-    layer.add(yodaGroup);
-    yodaGroup.add(yodaImg);
-    addAnchor(yodaGroup, 0, 0, 'topLeft');
-    addAnchor(yodaGroup, 93, 0, 'topRight');
-    addAnchor(yodaGroup, 93, 104, 'bottomRight');
-    addAnchor(yodaGroup, 0, 104, 'bottomLeft');
+        var darthVaderGroup = new Konva.Group({
+            x: 180,
+            y: 50,
+            draggable: true,
+        });
 
-    var imageObj1 = new Image();
-    imageObj1.onload = function () {
-        darthVaderImg.image(imageObj1);
-        layer.draw();
-    };
-    // static/images/...
-    imageObj1.src = 'https://target.scene7.com/is/image/Target/GUEST_bd945555-f106-40e9-80ad-4c6668b4e534?wid=488&hei=488&fmt=pjpeg';
+        layer.add(darthVaderGroup);
+        darthVaderGroup.add(patternImage);
+        addAnchor(darthVaderGroup, 0, 0, 'topLeft');
+        addAnchor(darthVaderGroup, 200, 0, 'topRight');
+        addAnchor(darthVaderGroup, 200, 200, 'bottomRight');
+        addAnchor(darthVaderGroup, 0, 200, 'bottomLeft');
 
-    var imageObj2 = new Image();
-    imageObj2.onload = function () {
-        yodaImg.image(imageObj2);
-        layer.draw();
+        var imageObj_pattern = new Image();
+        imageObj_pattern.onload = function () {
+            patternImage.image(imageObj_pattern);
+            layer.draw();
+        };
+
+        // change source
+        imageObj_pattern.src = 'https://target.scene7.com/is/image/Target/GUEST_bd945555-f106-40e9-80ad-4c6668b4e534?wid=488&hei=488&fmt=pjpeg';
     };
 
-    // static/images/...
-    imageObj2.src = 'https://upload.wikimedia.org/wikipedia/en/9/9b/Yoda_Empire_Strikes_Back.png';
+    imageObj.src = imageSrc;
 }
 
 $(document).ready(function () {
     $(inputImage).change(function () {
         const input = this;
 
+        $(imageFrame).empty();
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                const image = document.createElement('img');
-                image.height = '500';
-                image.align = 'middle';
+                var image = new Image();
                 image.src = e.target.result;
-                $(imageFrame).append(image)
+
+                image.onload = function () {
+                    drawCanvas(e.target.result, { width: this.width * 2, height: this.height * 2 }); // Fix Ratio
+                }
             }
 
             reader.readAsDataURL(input.files[0]);
+
+            $(processBtn).removeClass('d-none');
         }
     })
-
-    drawCanvas();
 })
