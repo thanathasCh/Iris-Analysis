@@ -1,7 +1,7 @@
 let inputImage = '#input-image';
 let imageFrame = '#image-frame';
 let processBtn = '#process_btn';
-let patternPath = '/static/images/eye-pattern.jpg';
+let patternPath = '/static/images/eye-pattern.png';
 const limitedWidth = 500;
 
 let userImagePath;
