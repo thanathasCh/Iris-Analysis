@@ -6,6 +6,7 @@ In order to run this program, you may need to install the following python libra
 1. opencv-python
 2. flask
 3. imutils
+4. Shapely
 
 Start project:
 ---

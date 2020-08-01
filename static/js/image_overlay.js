@@ -57,7 +57,7 @@ function update(activeAnchor) {
 }
 
 
-function addAnchor(group, x, y, name) {
+function addAnchor(group, x, y, name, isShow = false) {
     var stage = group.getStage();
     var layer = group.getLayer();
 
@@ -68,6 +68,7 @@ function addAnchor(group, x, y, name) {
         fill: '#ddd',
         strokeWidth: 2,
         radius: 8,
+        opacity: isShow ? 1 : 0,
         name: name,
         draggable: true,
         dragOnTop: false,
@@ -148,7 +149,7 @@ function drawCanvas(imageSrc, size) {
         imageGroup.add(patternImage);
         addAnchor(imageGroup, 0, 0, 'topLeft');
         addAnchor(imageGroup, 200, 0, 'topRight');
-        addAnchor(imageGroup, 200, 200, 'bottomRight');
+        addAnchor(imageGroup, 200, 200, 'bottomRight', true);
         addAnchor(imageGroup, 0, 200, 'bottomLeft');
 
         var imageObj_pattern = new Image();
