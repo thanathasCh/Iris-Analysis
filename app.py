@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, url_for
-import numpy as np
-import cv2
+from numpy import fromstring, uint8
+from cv2 import imdecode
 from urllib.request import urlopen
 
 from python_code import backend
@@ -24,7 +24,7 @@ def processImage():
         'currentHeight': currentHeight
     '''
 
-    img = cv2.imdecode(np.fromstring(urlopen(request.form['userImagePath']).file.read(), np.uint8), 1)
+    img = imdecode(fromstring(urlopen(request.form['userImagePath']).file.read(), uint8), 1)
     limitWidth = int(request.form['limitedWidth'])
     currentX = int(request.form['currentX'])
     currentY = int(request.form['currentY'])

@@ -12,6 +12,7 @@ with open('python_code/polygon.json', 'r') as f:
 
 BLUE = (255, 0, 0)
 BORDER = 2
+DRAW = False
 
 
 def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth):
@@ -22,7 +23,14 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth):
     r_w = currentHeight / 200
     r_h = currentWidth / 200
 
+    polygon_shapes = []
+    polygon_boxes = []
+
     for polygon in polygons:
+        polygon_points = []
+        point_x = []
+        point_y = []
+
         for i in range(len(polygon)):
             curr = polygon[i]
             
@@ -38,20 +46,43 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth):
             curr['x'] = int(curr['x'] * r_w) + currentX
             curr['y'] = int(curr['y'] * r_h) + currentY
 
-            cv2.line(new_img, (curr['x'], curr['y']), (nxtX, nxtY), BLUE, BORDER)
+            polygon_points.append(Point(curr['x'], curr['y']))
+            point_x.append(curr['x'])
+            point_y.append(curr['y'])
 
-    # polygon_points = []
-    # for coor in polygons[0]:
-    #     polygon_points.append((Point(coor['x'], coor['y'])))
+            if DRAW:
+                cv2.line(new_img, (curr['x'], curr['y']), (nxtX, nxtY), BLUE, BORDER)
 
-    # polygon = Polygon(polygon_points)
+        polygon_shapes.append(Polygon(polygon_points))
 
-    # for x in tqdm(range(500)):
-    #     for y in range(500):
-    #         point = Point(x, y)
-    #         if polygon.contains(point):  
-    #             pass
-    #             # cv2.circle(new_img, (x, y), 2, BLUE, BORDER)
+        max_x = max(point_x)
+        min_x = min(point_x)
+        max_y = max(point_y)
+        min_y = min(point_y)
 
-    cv2.imshow('a', new_img)
+        polygon_boxes.append([(min_x, min_y), (max_x, max_y)])
+
+
+    for x in tqdm(range(500)):
+        for y in range(500):
+            point = Point(x, y)
+
+            if not polygon_shapes[0].contains(point) and not polygon_shapes[1].contains(point) and not polygon_shapes[2].contains(point) and not polygon_shapes[3].contains(point) and not polygon_shapes[4].contains(point):
+                new_img[y, x] = [0, 0, 0]
+
+    new_images = []
+    for i in range(len(polygon_boxes)):
+        (x1, y1), (x2, y2) = polygon_boxes[i]
+        new_images.append(new_img[y1:y2, x1:x2])
+
+    main(new_images)
+
+
+
+def main(images):
+    # You can start working with images over here.
+    
+    for i in range(len(images)):
+        cv2.imshow(str(i), images[i])
+
     cv2.waitKey()
