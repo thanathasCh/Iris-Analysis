@@ -67,7 +67,7 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth):
         for y in range(500):
             point = Point(x, y)
 
-            if not polygon_shapes[0].contains(point) and not polygon_shapes[1].contains(point) and not polygon_shapes[2].contains(point):# and not polygon_shapes[3].contains(point) and not polygon_shapes[4].contains(point):
+            if not polygon_shapes[0].contains(point):# and not polygon_shapes[1].contains(point) and not polygon_shapes[2].contains(point) and not polygon_shapes[3].contains(point) and not polygon_shapes[4].contains(point):
                 new_img[y, x] = [0, 0, 0]
 
     new_images = []
