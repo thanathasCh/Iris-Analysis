@@ -200,7 +200,8 @@ $(document).ready(function () {
             'currentX': currentX,
             'currentY': currentY,
             'currentWidth': currentWidth,
-            'currentHeight': currentHeight
+            'currentHeight': currentHeight,
+            'isComplete': $('#input-checkbox').prop("checked")
         })
             .done(function (data) {
                 console.log('done');

@@ -21,7 +21,8 @@ def processImage():
         'currentX': currentX,
         'currentY': currentY,
         'currentWidth': currentWidth,
-        'currentHeight': currentHeight
+        'currentHeight': currentHeight,
+        'isComplete' : 'true'
     '''
 
     img = imdecode(fromstring(urlopen(request.form['userImagePath']).file.read(), uint8), 1)
@@ -30,8 +31,8 @@ def processImage():
     currentY = int(request.form['currentY'])
     currentWidth = int(request.form['currentWidth'])
     currentHeight = int(request.form['currentHeight'])
-
-    backend.start(img, limitWidth, currentX, currentY, currentHeight, currentWidth)
+    isComplete = request.form['isComplete'] == 'true'
+    backend.start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isComplete)
     
     return 'done'
 
