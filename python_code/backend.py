@@ -36,7 +36,7 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isCo
     mask = cv2.ellipse(mask, (x, y), (radiusWidth, radiusHeight), 0, 0, 360, BLUE, -1)
     result = np.bitwise_and(new_img, mask)
     result[result == 0] = 255
-
+    print(p1, p2)
     result = result[p2[1]:p2[0], p1[0]:p1[1]]
     # polygon_shapes = []
     # polygon_boxes = []
@@ -99,6 +99,6 @@ def main(image, isComplete):
     cv2.imshow('image', image)
     cv2.imwrite('result/left.png', image)
 
-    compare_eye.start()
+    # compare_eye.start()
 
     cv2.waitKey()
