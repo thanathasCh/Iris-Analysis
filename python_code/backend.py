@@ -37,7 +37,7 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isCo
     result = np.bitwise_and(new_img, mask)
     result[result == 0] = 255
 
-    result = result[p2[1]:p2[0], p1[0]:p1[1]]
+    result = result[p2[1]:p1[1], p1[0]:p2[0]]
     # polygon_shapes = []
     # polygon_boxes = []
 
