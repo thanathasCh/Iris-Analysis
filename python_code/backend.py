@@ -20,6 +20,7 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isCo
     h, w, _ = img.shape
     new_size = (int((limitWidth / w) * h), limitWidth)
     new_img = cv2.cvtColor(imutils.resize(img, width=limitWidth, height=int((limitWidth / w) * h)), cv2.COLOR_BGR2GRAY)
+    new_img[new_img == 0] = 1
 
     r_w = currentHeight / 200
     r_h = currentWidth / 200
@@ -34,7 +35,7 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isCo
     mask = np.zeros_like(new_img)
     mask = cv2.ellipse(mask, (x, y), (radiusWidth, radiusHeight), 0, 0, 360, BLUE, -1)
     result = np.bitwise_and(new_img, mask)
-
+    result[result == 0] = 255
     # polygon_shapes = []
     # polygon_boxes = []
 
@@ -93,7 +94,6 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isCo
 
 def main(image, isComplete):
     # You can start working with images over here.
-    print(isComplete)
     cv2.imshow('image', image)
     cv2.imwrite('result/left.png', image)
 
