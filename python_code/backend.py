@@ -5,6 +5,7 @@ import json
 from tqdm import tqdm
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
+from python_code import compare_eye
 
 with open('python_code/polygon.json', 'r') as f:
     polygons = json.load(f)
@@ -94,4 +95,8 @@ def main(image, isComplete):
     # You can start working with images over here.
     print(isComplete)
     cv2.imshow('image', image)
+    cv2.imwrite('result/left.png', image)
+
+    compare_eye.start()
+
     cv2.waitKey()
