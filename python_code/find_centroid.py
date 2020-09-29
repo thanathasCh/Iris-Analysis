@@ -32,10 +32,10 @@ for i in range(m_l+1):
     sum_x = np.sum(g[:, 0])
     sum_y = np.sum(g[:, 1])
 
-    cen = (sum_x//length, sum_y//length)
+    cen = (sum_x//length, sum_y//length) # <------------- center of each centroid
     cv2.circle(board, cen, 2, RED, 2)
-    m_h = max(g[:, 0] - cen[0])
-    m_w = max(g[:, 1] - cen[1])
+    m_h = max(g[:, 0] - cen[0]) # <------------ max height
+    m_w = max(g[:, 1] - cen[1]) # <------------ max width
     cv2.ellipse(board, cen, (m_h+25, m_w+5), 0, 0, 360, RED, 2)
 
 cv2.imshow('a', board)
