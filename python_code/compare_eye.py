@@ -67,5 +67,5 @@ def start():
             color = (0,255,0)
         if i[2] == 3:
             color = (255,0,0)
-        cv2.rectangle(coor, (i[0], i[1]), (i[0] + 5, i[1] + 5), color, 1)
+        cv2.rectangle(coor, (i[0], i[1]), (i[0] + 3, i[1] + 3), color, 1)
     cv2.imwrite("result/coor.png", coor)
