@@ -6,6 +6,15 @@ import os
 
 coordinate = []
 
+def isOutSide(img, x, y):
+    n_min = np.min(img)
+    n_max = np.max(img)
+
+    if img[x, y] == n_max or img[x, y] == n_min:
+        return True
+
+    return False
+
 def blur(img):
     # kernel = np.ones((5,5),np.float32)/25
     # dst = cv2.filter2D(img,-1,kernel)
@@ -13,6 +22,7 @@ def blur(img):
     return dst
 
 def compare(img1, img2, i):
+    cv2.waitKey()
     global coordinate
     (score, diff) = compare_ssim(img1, img2, full=True)
     diff = (diff * 255).astype("uint8")
@@ -27,9 +37,10 @@ def compare(img1, img2, i):
     for c in cnts:
         (x, y, w, h) = cv2.boundingRect(c)
         if w < 50 and h < 50:
-            cv2.rectangle(diff, (x, y), (x + w, y + h), (0, 0, 255), 1)
-            cv2.rectangle(img2, (x, y), (x + w, y + h), (0, 0, 255), 1)
-            coordinate.append((x, y, i))
+            if not isOutSide(img2, x, y):
+                cv2.rectangle(diff, (x, y), (x + w, y + h), (0, 0, 255), 1)
+                cv2.rectangle(img2, (x, y), (x + w, y + h), (0, 0, 255), 1)
+                coordinate.append((x, y, i))
 
     cv2.imwrite("result/diff_detected" + str(i) + ".png", diff)
     # cv2.imwrite("thresh.png", thresh)
