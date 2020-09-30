@@ -61,12 +61,14 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isCo
     #         curr['x'] = int(curr['x'] * r_w) + currentX
     #         curr['y'] = int(curr['y'] * r_h) + currentY
 
+    #         print(curr['x'], curr['y'])
     #         polygon_points.append(Point(curr['x'], curr['y']))
     #         point_x.append(curr['x'])
     #         point_y.append(curr['y'])
 
     #         if DRAW:
     #             cv2.line(new_img, (curr['x'], curr['y']), (nxtX, nxtY), BLUE, BORDER)
+
 
     #     polygon_shapes.append(Polygon(polygon_points))
 
@@ -76,7 +78,6 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isCo
     #     min_y = min(point_y)
 
     #     polygon_boxes.append([(min_x, min_y), (max_x, max_y)])
-
 
     # for x in tqdm(range(500)):
     #     for y in range(500):

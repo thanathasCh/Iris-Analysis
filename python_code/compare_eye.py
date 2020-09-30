@@ -3,6 +3,8 @@ import numpy as np
 from skimage.measure import compare_ssim
 import imutils
 import os
+from python_code.detect_desease import count_point_in_area
+from python_code import overlay
 
 coordinate = []
 
@@ -42,10 +44,10 @@ def compare(img1, img2, i):
                 cv2.rectangle(img2, (x, y), (x + w, y + h), (0, 0, 255), 1)
                 coordinate.append((x, y, i))
 
-    cv2.imwrite("result/diff_detected" + str(i) + ".png", diff)
+    # cv2.imwrite("result/diff_detected" + str(i) + ".png", diff)
     # cv2.imwrite("thresh.png", thresh)
     # cv2.imwrite("img1_result.png", img1)
-    cv2.imwrite("result/eye_detected" + str(i) + ".png", img2)
+    # cv2.imwrite("result/eye_detected" + str(i) + ".png", img2)
 
 def start():
     global coordinate
@@ -86,5 +88,17 @@ def start():
         if i[2] == 3:
             color = (255,0,0)
         cv2.rectangle(coor, (i[0], i[1]), (i[0] + 5, i[1] + 5), color, 1)
-    cv2.imshow("detected_spot", coor)
+
+    # brain, lung, chest, kidney
+    first, second, third, fourth, fifth = count_point_in_area(coor, coordinate)
+    sum_coor = first + second + third + fourth + fifth
+    # print(first, second, third, fourth, fifth)
+    print("There are " + str(sum_coor) + " detected spots in this eye")
+    print(str(first) + " (" + str(round((first/sum_coor)*100,2)) + "%)" + " of detected errors are in brain section")
+    print(str(second) + " (" + str(round((second/sum_coor)*100,2)) + "%)" + " of detected errors are in lung section")
+    print(str(third) + " (" + str(round((third/sum_coor)*100,2)) + "%)" + " of detected errors are in chest section")
+    print(str(fourth) + " (" + str(round((fourth/sum_coor)*100,2)) + "%)" + " of detected errors are in kidney section")
+
+    # cv2.imshow("detected_spot", coor)
     cv2.imwrite("result/coor.png", coor)
+    overlay.start()
