@@ -96,7 +96,6 @@ def start(img, limitWidth, currentX, currentY, currentHeight, currentWidth, isCo
 
 def main(image, isComplete):
     # You can start working with images over here.
-    cv2.imshow('image', image)
     cv2.imwrite('result/eye.png', image) # samples\30\right\philipr5.bmp
 
     compare_eye.start()
