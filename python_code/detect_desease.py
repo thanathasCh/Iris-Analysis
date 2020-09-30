@@ -1,7 +1,6 @@
 import json
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
-from tqdm import tqdm
 import cv2
 
 with open('python_code/back-up.json') as f:
@@ -42,7 +41,7 @@ def count_point_in_area(img, points):
             point_x.append(cur['x'])
             point_y.append(cur['y'])
 
-            cv2.line(img, (cur['x'], cur['y']), (nxtX, nxtY), (255, 0, 0), 2)
+            # cv2.line(img, (cur['x'], cur['y']), (nxtX, nxtY), (255, 0, 0), 2)
 
         polygon_shapes.append(Polygon(polygon_points))
         max_x = max(point_x)
