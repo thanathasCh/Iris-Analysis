@@ -66,4 +66,4 @@ def count_point_in_area(img, points):
         if polygon_shapes[3].contains(point):
             fourth += 1
 
-    return (first, second, third, fourth)
+    return (first, second, third, fourth, len(points) - sum([first, second, third, fourth]))
