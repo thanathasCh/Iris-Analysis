@@ -35,15 +35,27 @@ def compare(img1, img2, i):
     cnts = imutils.grab_contours(cnts)
 
     cv2.imwrite("result/diff.png", diff)
+    # test = cv2.imread("result/eye.png")
 
     for c in cnts:
         (x, y, w, h) = cv2.boundingRect(c)
         if w < 50 and h < 50:
             if not isOutSide(img2, x, y):
-                cv2.rectangle(diff, (x, y), (x + w, y + h), (0, 0, 255), 1)
-                cv2.rectangle(img2, (x, y), (x + w, y + h), (0, 0, 255), 1)
+                # cv2.rectangle(diff, (x, y), (x + w, y + h), (0, 0, 255), 1)
+                # cv2.rectangle(img2, (x, y), (x + w, y + h), (0, 0, 255), 1)
+                """
+                color = (0,255,255)
+                if i == 1:
+                    color = (0,0,255)
+                if i == 2:
+                    color = (0,255,0)
+                if i == 3:
+                    color = (255,0,0)
+                cv2.rectangle(test, (x, y), (x + 5, y + 5), color, 1)
+                """
                 coordinate.append((x, y, i))
 
+    # cv2.imwrite("result/test_detected" + str(i) + ".png", test)
     # cv2.imwrite("result/diff_detected" + str(i) + ".png", diff)
     # cv2.imwrite("thresh.png", thresh)
     # cv2.imwrite("img1_result.png", img1)
