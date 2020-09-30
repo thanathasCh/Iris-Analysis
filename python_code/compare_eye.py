@@ -3,6 +3,7 @@ import numpy as np
 from skimage.measure import compare_ssim
 import imutils
 import os
+from python_code.detect_desease import count_point_in_area
 
 coordinate = []
 
@@ -79,4 +80,6 @@ def start():
         if i[2] == 3:
             color = (255,0,0)
         cv2.rectangle(coor, (i[0], i[1]), (i[0] + 5, i[1] + 5), color, 1)
+
+    first, second, third, fourth = count_point_in_area(coor, coordinate)
     cv2.imwrite("result/coor.png", coor)
