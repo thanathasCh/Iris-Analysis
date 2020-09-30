@@ -46,11 +46,18 @@ def compare(img1, img2, i):
     cv2.imwrite("result/diff_detected" + str(i) + ".png", diff)
     # cv2.imwrite("thresh.png", thresh)
     # cv2.imwrite("img1_result.png", img1)
-    cv2.imwrite("result/right_detected" + str(i) + ".png", img2)
+    cv2.imwrite("result/eye_detected" + str(i) + ".png", img2)
 
 def start():
     global coordinate
-    PATH = "clean_datasets/right/"
+
+    l_or_r = input("Enter eye (l or r): ")
+    if l_or_r == 'l':
+        l_or_r = 'left'
+    elif l_or_r == 'r':
+        l_or_r = 'right'
+
+    PATH = "clean_datasets/" + l_or_r + "/"
     counter = 1
     for i in os.listdir(PATH):
         clean = cv2.imread(PATH+i)
